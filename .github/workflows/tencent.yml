@@ -31,8 +31,8 @@ jobs:
 
       # 🔐 3️⃣ Connexion au registre Tencent Cloud
       - name: Login to Tencent Container Registry
-        run: |
-          docker login -u "${{ secrets.TENCENT_CLOUD_ACCOUNT_ID }}" -p "${{ secrets.TKE_REGISTRY_PASSWORD }}" ccr.ccs.tencentyun.com
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}"
+
 
       # 📤 4️⃣ Publication de l’image sur le registre
       - name: Push image to Tencent Cloud Registry
