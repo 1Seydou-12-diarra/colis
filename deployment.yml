@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tke-test
+  labels:
+    app: gestion
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gestion
+  template:
+    metadata:
+      labels:
+        app: gestion
+    spec:
+      containers:
+        - name: gestion-app
+          image: ccr.ccs.tencentyun.com/demo/mywebapp:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8989
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://gestion-db:5432/colis_db
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: postgres
+            - name: SERVER_PORT
+              value: "8989"
+---

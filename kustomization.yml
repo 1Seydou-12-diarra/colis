@@ -1,0 +1,7 @@
+resources:
+  - deployment.yml
+  - service.yml
+
+images:
+  - name: ccr.ccs.tencentyun.com/demo/mywebapp
+    newTag: latest
