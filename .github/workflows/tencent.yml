@@ -29,15 +29,16 @@ jobs:
         run: |
           docker build -t ${TKE_IMAGE_URL}:${GITHUB_SHA} .
 
-      # 🔐 3️⃣ Connexion au registre Tencent Cloud
       - name: Login to Tencent Container Registry
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}"
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin ccr.ccs.tencentyun.com
+
+      - name: Build Docker image
+        run: docker build -t ${{ env.TKE_IMAGE_URL }}:${{ github.sha }} .
+
+      - name: Push Docker image
+        run: docker push ${{ env.TKE_IMAGE_URL }}:${{ github.sha }}
 
 
-      # 📤 4️⃣ Publication de l’image sur le registre
-      - name: Push image to Tencent Cloud Registry
-        run: |
-          docker push ${TKE_IMAGE_URL}:${GITHUB_SHA}
 
       # ⚙️ 5️⃣ Installation de kustomize
       - name: Set up Kustomize
